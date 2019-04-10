@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #000;
+            overflow: hidden;
+        }
+    </style>
+    <script src="js/jquery-1.10.2.min.js"></script>
+</head>
+
+<body>
+
+    <script>
+        var newOn = 80;//间隔多长时间产生一个雪片，单位是毫秒，这个值越小的，雪下得越大
+        var flake = $("<div></div>").css("position", "absolute").html("❄");//声明一个雪片的对象
+        var flakeColor = "#fff";//设置雪片的颜色
+        setInterval(function () {
+            var documentWidth = $(document).width();//获取到网页的宽度
+            var documentHeight = $(document).height();//获取到网页的高度
+            var startLeft = Math.random() * documentWidth;//获取到雪片产生的时候，距离浏览器的left值
+            var endLeft = Math.random() * documentWidth;//获取到雪片下落后，距离浏览器的left
+            var flakeSize = 5 + 50 * Math.random();//获取到雪片的随机大小
+            var startOpacity = 0.7 + 0.3 * Math.random();//获取到雪片产生的时候的透明度
+            var endOpcity = 0.4 + 0.3 * Math.random();//获取到雪片落下来后的透明度
+            var fallTime = 3000 + Math.random() * 7000;//雪片从上面下落到下面所需的时间  
+            flake.clone().appendTo($("body")).css({//把雪片对象拷贝一份，加到网页中去，并且设置它的样式
+                "left": startLeft,
+                "font-size": flakeSize,
+                "color": flakeColor,
+                "top": "-55px",
+                "opacity": startOpacity
+            }).animate({//执行一个动画，雪片从上面飘到下面
+                "left":endLeft,
+                "top":documentHeight,
+                "opacity": endOpcity
+            }, fallTime,function(){
+                $(this).remove();//动画结束之后，对象销毁
+            });
+        }, newOn);
+    </script>
+</body>
+
+</html>
